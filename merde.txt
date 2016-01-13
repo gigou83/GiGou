@@ -1,0 +1,4 @@
+gcc -L. -o app main.c -laaa001
+
+@$(CC) -dynamiclib -install_name libaaa001.dylib -o libaaa001.dylib exemple.o
+	mv "libaaa001.dylib" GiGou
