@@ -1,1 +1,1 @@
-Welcome on GiGou 2
+Welcome on GiGou 
