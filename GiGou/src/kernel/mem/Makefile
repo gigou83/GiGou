@@ -12,8 +12,8 @@ CFLAGS=-W -Wall -ansi
 all: $(EXEC)
 
 kernel_mem: $(OBJ)
-	@$(CC) -dynamiclib -install_name libaba001.dylib -o libaba001.dylib $(OBJ)
-	mv libaba001.dylib ../
+	@$(CC) -dynamiclib -install_name libaaa.dylib -o libaaa.dylib $(OBJ)
+	mv libaaa.dylib ../
 	make clean
 
 %.o: %.c
@@ -23,4 +23,4 @@ clean:
 	@rm -rf *.o
 
 mrproper: clean
-	@rm -rf libaba001.dylib
+	@rm -rf *.dylib

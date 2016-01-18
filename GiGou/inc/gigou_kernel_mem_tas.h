@@ -7,6 +7,20 @@
 
 typedef struct gigou_MemoryTas gigou_MemoryTas;
 
+/* -----------------------------------------------------------
+ struct gigou_MemoryTas
+ -----------------------------------------------------------
+ Structure d'un tas de mémoire, l'idée de tas a été remplacé
+ par un tableau dans le pool, c'est da_tas. Remplacement fait 
+ car le tableau est déjà trié en fonction de la taille des buffers
+ à la création, le nom de tas a été conservé.
+ -----------------------------------------------------------
+ v_val : taille des buffers de cette élément du tas
+ 
+ p_pile : pointeur vers la pile de buffer
+ 
+ */
+
 __GigouWinAPI struct __GigouUnixAPI gigou_MemoryTas{
     
     UINT32 v_val;

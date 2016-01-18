@@ -50,7 +50,7 @@
 #               else
 #                   define GIGOU_ARCH_PLATFORM GIGOU_ARCH_PLATFORM_32
 #               endif
-#               define GIGOU_PLATFORM GIGOU_PLATFORM_OSX
+#               define GIGOU_PLATFORM GIGOU_PLATFORM_MACOS
 #           endif
 #       endif
 #   elif (defined(__APPLE__) && defined(__MACH__))

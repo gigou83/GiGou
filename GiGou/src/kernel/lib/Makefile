@@ -1,9 +1,9 @@
-# GiGou/Makefile
+# GiGou/bin/kernel/lib/Makefile
 
 .SUFFIXES:
 .PHONY: clean
 
-EXEC:test
+EXEC:kernel_lib
 CC=gcc
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
@@ -11,8 +11,10 @@ CFLAGS=-W -Wall -ansi
 
 all: $(EXEC)
 
-test: $(OBJ)
-	$(CC) -L. -o app $(SRC) -laa
+kernel_lib: $(OBJ)
+	@$(CC) -L. -dynamiclib -install_name libaab.dylib -o libaab.dylib $(OBJ) -laaa
+	mv libaaa.dylib ../
+	mv libaab.dylib ../
 	make clean
 
 %.o: %.c
@@ -22,5 +24,4 @@ clean:
 	@rm -rf *.o
 
 mrproper: clean
-	@rm -rf app
 	@rm -rf *.dylib

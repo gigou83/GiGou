@@ -5,6 +5,8 @@
 
 #include "gigou_kernel_mem_pool.h"
 
+#include "gigou_kernel_thread.h"
+
 extern __GigouWinAPI gigou_MemoryPool * __GigouUnixAPI gigou_kernel_mem_pool_createPool();
 
 typedef struct gigou_Kernel gigou_Kernel;
@@ -40,8 +42,16 @@ struct gigou_Kernel{
     UINT32 v_nbrPool;
     UINT32 v_maxSizePool;
     
+    
+    
+    gigou_Thread ** da_stackThread;
+    UINT32 v_nbrThread;
+    
+    
     gigou_Kernel ** da_childKernel;
     UINT32 v_nbrChildKernel;
+    
+    
     
     UINT32 v_indentityKernel;
     
@@ -133,6 +143,19 @@ __GigouWinAPI void * __GigouUnixAPI gigou_kernel_alloc(gigou_Kernel * kernel,
 
 
 /* ---------------------------------------------------------------------
+ gigou_kernel_stdAlloc()
+ ---------------------------------------------------------------------
+ Alloue de la mémoire avec la fonction OS
+ ---------------------------------------------------------------------
+ E : size
+ S : adresse du bloc mémoire
+ --------------------------------------------------------------------- */
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_stdAlloc(size_t size);
+
+
+
+
+/* ---------------------------------------------------------------------
  gigou_kernel_allocInPool()
  ---------------------------------------------------------------------
  Alloue de la mémoire dans un pool précis
@@ -189,6 +212,18 @@ __GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_preAllocInPool(gigou_Kernel * k
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_free(gigou_Kernel * kernel,
                                                     void * addr,
                                                     size_t size);
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_stdFree()
+ ---------------------------------------------------------------------
+ Libère la mémoire allouée avec la fonction OS
+ ---------------------------------------------------------------------
+ E : adresse
+ S : -
+ --------------------------------------------------------------------- */
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_stdFree(void * addr);
 
 
 

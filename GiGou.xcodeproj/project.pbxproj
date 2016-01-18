@@ -1,0 +1,152 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		907545191C4D9CD500C3C696 /* .DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = .DS_Store; sourceTree = "<group>"; };
+		9075451A1C4D9CD500C3C696 /* .git */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .git; sourceTree = "<group>"; };
+		9075451B1C4D9CD500C3C696 /* GiGou */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GiGou; sourceTree = "<group>"; };
+		9075451C1C4D9CD500C3C696 /* GiGou Doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "GiGou Doc"; sourceTree = "<group>"; };
+		9075451D1C4D9CD500C3C696 /* GiGou Driver */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "GiGou Driver"; sourceTree = "<group>"; };
+		9075451E1C4D9CD500C3C696 /* GiGou Studio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "GiGou Studio"; sourceTree = "<group>"; };
+		9075451F1C4D9CD500C3C696 /* GiGou Test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "GiGou Test"; sourceTree = "<group>"; };
+		907545201C4D9CD500C3C696 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		907545211C4D9CD500C3C696 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		907545131C4D9CD500C3C696 = {
+			isa = PBXGroup;
+			children = (
+				907545191C4D9CD500C3C696 /* .DS_Store */,
+				9075451A1C4D9CD500C3C696 /* .git */,
+				9075451B1C4D9CD500C3C696 /* GiGou */,
+				9075451C1C4D9CD500C3C696 /* GiGou Doc */,
+				9075451D1C4D9CD500C3C696 /* GiGou Driver */,
+				9075451E1C4D9CD500C3C696 /* GiGou Studio */,
+				9075451F1C4D9CD500C3C696 /* GiGou Test */,
+				907545201C4D9CD500C3C696 /* Makefile */,
+				907545211C4D9CD500C3C696 /* README.txt */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		907545181C4D9CD500C3C696 /* GiGou */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 907545221C4D9CD500C3C696 /* Build configuration list for PBXLegacyTarget "GiGou" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/gilbertgeitner/Desktop/GiGou;
+			dependencies = (
+			);
+			name = GiGou;
+			passBuildSettingsInEnvironment = 1;
+			productName = GiGou;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		907545141C4D9CD500C3C696 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 907545171C4D9CD500C3C696 /* Build configuration list for PBXProject "GiGou" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 907545131C4D9CD500C3C696;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				907545181C4D9CD500C3C696 /* GiGou */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		907545151C4D9CD500C3C696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		907545161C4D9CD500C3C696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		907545231C4D9CD500C3C696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = GiGou;
+			};
+			name = Debug;
+		};
+		907545241C4D9CD500C3C696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = GiGou;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		907545171C4D9CD500C3C696 /* Build configuration list for PBXProject "GiGou" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				907545151C4D9CD500C3C696 /* Debug */,
+				907545161C4D9CD500C3C696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		907545221C4D9CD500C3C696 /* Build configuration list for PBXLegacyTarget "GiGou" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				907545231C4D9CD500C3C696 /* Debug */,
+				907545241C4D9CD500C3C696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 907545141C4D9CD500C3C696 /* Project object */;
+}

@@ -26,16 +26,4 @@ typedef const unsigned long int CUINT32;
 /* typedef signed long long int      INT64; */
 /* typedef unsigned long long int    UINT64; */
 
-#define GIGOU_ALLOC_HANDLE  void **
-#define GIGOU_HANDLE void *
-
-#define GIGOU_STACK_MEM 10
-#define GIGOU_DEFAULT_SIZEPOOL 128
-#define GIGOU_MEM_NBR_REALLOC 10
-
-#define GIGOU_TERA 1024*1024*1024*1024
-#define GIGOU_GIGA 1024*1024*1024
-#define GIGOU_MEGA 1024*1024
-#define GIGOU_KILO 1024
-
 #endif

@@ -179,7 +179,7 @@ __GigouWinAPI void * __GigouUnixAPI gigou_kernel_allocInPool(gigou_Kernel * kern
             
         }else{
             
-            return malloc(size*sizeof(char));
+            return malloc(size);
             
         }
         
@@ -193,6 +193,13 @@ __GigouWinAPI void * __GigouUnixAPI gigou_kernel_allocInPool(gigou_Kernel * kern
     
     return buffer;
     
+    
+}
+
+
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_stdAlloc(size_t size){
+    
+    return malloc(size);
     
 }
 
@@ -296,4 +303,13 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_freeInPool(gigou_Kernel * kernel,
     
     
 }
+
+
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_stdFree(void * addr){
+    
+    free(addr);
+    
+}
+
+
 

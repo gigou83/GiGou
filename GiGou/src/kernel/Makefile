@@ -13,9 +13,15 @@ all: $(EXEC)
 
 kernel: $(OBJ)
 	make -C mem
-	@$(CC) -L. -dynamiclib -install_name libaaa001.dylib -o libaaa001.dylib $(OBJ) -laba001
-	mv libaba001.dylib ../../build/
-	mv libaaa001.dylib ../../build/
+	mv libaaa.dylib thread/
+	make -C thread
+	mv libaaa.dylib lib/
+	make -C lib
+	@$(CC) -L. -dynamiclib -install_name libaa.dylib -o libaa.dylib $(OBJ) -laaa -laab -laac
+	mv libaa.dylib ../../build/
+	mv libaaa.dylib ../../build/
+	mv libaab.dylib ../../build/
+	mv libaac.dylib ../../build/
 	make clean
 
 %.o: %.c
@@ -24,8 +30,11 @@ kernel: $(OBJ)
 clean:
 	@rm -rf *.o
 	make clean -C mem
+	make clean -C thread
+	make clean -C lib
 
 mrproper: clean
-	@rm -rf libaaa001.dylib
-	@rm -rf libaba001.dylib
+	@rm -rf *.dylib
 	make mrproper -C mem
+	make mrproper -C thread
+	make mrproper -C lib
