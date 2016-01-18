@@ -1,0 +1,1 @@
+Here is the GiGou studio, a software constructed with GiGou to use GiGou without knowledge in programming
