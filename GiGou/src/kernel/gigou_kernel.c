@@ -60,7 +60,7 @@ __GigouWinAPI gigou_Kernel * __GigouUnixAPI gigou_kernel_startKernel(gigou_Infos
         
         __GigouLogArg("Creating pool %d",__GigouCastInt i)
         
-        *(buffer->da_stackPool + i) = gigou_kernel_mem_pool_createPool();
+        *(buffer->da_stackPool + i) = gigou_kernel_mem_pool_createPool(i);
         
         gigou_kernel_mem_pool_setMaxSize(*(buffer->da_stackPool + i),infos->v_maxSizePool);
         
@@ -77,7 +77,7 @@ __GigouWinAPI gigou_Kernel * __GigouUnixAPI gigou_kernel_startKernel(gigou_Infos
 
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_endKernel(gigou_Kernel * kernel){
     
-    __GigouLog("Arret du kernel")
+    __GigouLog("START : Stopping kernel")
     
     int i = 0;
     
@@ -95,9 +95,11 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_endKernel(gigou_Kernel * kernel){
         
     }else{
         
-        __GigouLog("ERREUR le kernel n'existe pas")
+        __GigouError("This kernel doesn't exist")
         
     }
+    
+    __GigouLog("END : Stopping kernel")
     
 }
 
@@ -118,7 +120,7 @@ __GigouWinAPI gigou_InfosKernel * __GigouUnixAPI gigou_kernel_getBasicInfosKerne
     
     buffer->v_nbrPool = 1;
     
-    buffer->v_maxSizePool = 1024;
+    buffer->v_maxSizePool = GIGOU_DEFAULT_SIZEPOOL;
     
     buffer->v_indentityKernel = 0;
     
@@ -142,3 +144,156 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_destroyBasicInfosKernel(gigou_Inf
     }
     
 }
+
+
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_alloc(gigou_Kernel * kernel,size_t size){
+    
+    return gigou_kernel_allocInPool(kernel,0,size);
+    
+}
+
+
+
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_allocInPool(gigou_Kernel * kernel,
+                                                                     UINT32 identity,
+                                                                     size_t size){
+    
+    void * buffer = NULL;
+    
+    int indice = 0;
+    
+    UINT32 c_size = (UINT32) size;
+    
+    if(kernel != NULL){
+        
+        
+        if(c_size < kernel->v_maxSizePool){
+            
+            indice = c_size/GIGOU_ALIGNEMENT - 1;
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+            buffer = __gigou_kernel_mem_pile_popElement((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile );
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+        }else{
+            
+            return malloc(size*sizeof(char));
+            
+        }
+        
+        
+    }else{
+        
+        __GigouError("Invalid kernel")
+        
+    }
+    
+    
+    return buffer;
+    
+    
+}
+
+
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_preAlloc(gigou_Kernel * kernel,
+                                                          size_t size,
+                                                          UINT32 nbr){
+    
+    
+    return gigou_kernel_preAllocInPool(kernel,0,size,nbr);
+    
+}
+
+
+
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_preAllocInPool(gigou_Kernel * kernel,
+                                                                UINT32 identity,
+                                                                size_t size,
+                                                                UINT32 nbr){
+    UINT32 c_size = (UINT32) size;
+    
+    int indice = 0;
+    
+    int buffer = 0;
+    
+    if(kernel != NULL){
+        
+        if(c_size > 0  && nbr > 0){
+            
+            indice = c_size/GIGOU_ALIGNEMENT - 1;
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+            buffer =  __gigou_kernel_mem_pile_preAlloc((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile,nbr);
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+            return buffer;
+            
+        }else{
+            
+            __GigouError("Invalid argument")
+            
+        }
+        
+        
+    }else{
+        
+        __GigouError("This kernel doesn't exist")
+        
+    }
+    
+    
+    return 0;
+    
+}
+
+
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_free(gigou_Kernel * kernel, void * addr, size_t size){
+    
+    gigou_kernel_freeInPool(kernel,0,addr,size);
+    
+}
+
+
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_freeInPool(gigou_Kernel * kernel,
+                                                          UINT32 identity,
+                                                          void * addr,
+                                                          size_t size){
+    
+    UINT32 c_size = (UINT32) size;
+    
+    int indice = 0;
+    
+    if(kernel != NULL){
+        
+        if(c_size < kernel->v_maxSizePool){
+            
+            indice = c_size/GIGOU_ALIGNEMENT - 1;
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+            __gigou_kernel_mem_pile_pushElement((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile,addr);
+            
+            /*__gigou_kernel_mem_pile_display((*((*(kernel->da_stackPool + identity))->da_tas + indice))->p_pile);*/
+            
+            addr = NULL;
+            
+        }else{
+            
+            free(addr);
+            
+        }
+        
+    }else{
+        
+        __GigouError("Invalid kernel")
+        
+    }
+
+    
+    
+}
+

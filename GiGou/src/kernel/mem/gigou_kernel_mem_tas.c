@@ -15,9 +15,6 @@ __GigouWinAPI gigou_MemoryTas * __GigouUnixAPI gigou_kernel_mem_tas_createTas(){
     
     buffer->p_pile = gigou_kernel_mem_pile_createPile();
     
-    buffer->p_childRight = NULL;
-    buffer->p_childLeft = NULL;
-    
     return buffer;
     
 }
@@ -25,14 +22,17 @@ __GigouWinAPI gigou_MemoryTas * __GigouUnixAPI gigou_kernel_mem_tas_createTas(){
 
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_tas_destroyTas(gigou_MemoryTas * tas){
     
-    __GigouLog("Liberation du tas")
-    
     gigou_kernel_mem_pile_destroyPile(tas->p_pile);
     
     free(tas);
     
     tas = NULL;
     
-    __GigouLog("Tas freed !")
+}
+
+
+__GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_tas_stackMemoryAligned(gigou_MemoryTas * tas){
+    
+    gigou_kernel_mem_pile_AllocPile(tas->p_pile,GIGOU_STACK_MEM,tas->v_val);
     
 }

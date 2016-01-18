@@ -71,7 +71,7 @@ struct gigou_InfosKernel{
 
 
 /* ---------------------------------------------------------------------
- gigou_kernel_mem_startKernel()
+ gigou_kernel_startKernel()
  ---------------------------------------------------------------------
  Créé et initialise et renvoie un kernel
  ---------------------------------------------------------------------
@@ -83,7 +83,7 @@ __GigouWinAPI gigou_Kernel * __GigouUnixAPI gigou_kernel_startKernel(gigou_Infos
 
 
 /* ---------------------------------------------------------------------
- gigou_kernel_mem_endKernel()
+ gigou_kernel_endKernel()
  ---------------------------------------------------------------------
  Détruit et libère le kernel
  ---------------------------------------------------------------------
@@ -117,6 +117,93 @@ __GigouWinAPI gigou_InfosKernel * __GigouUnixAPI gigou_kernel_getBasicInfosKerne
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_destroyBasicInfosKernel(gigou_InfosKernel * infos);
 
 
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_alloc()
+ ---------------------------------------------------------------------
+ Alloue de la mémoire
+ ---------------------------------------------------------------------
+ E : kernel, size
+ S : adresse du bloc mémoire
+ --------------------------------------------------------------------- */
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_alloc(gigou_Kernel * kernel,
+                                                               size_t size);
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_allocInPool()
+ ---------------------------------------------------------------------
+ Alloue de la mémoire dans un pool précis
+ ---------------------------------------------------------------------
+ E : kernel, identifiant du pool, size
+ S : adresse du bloc mémoire
+ --------------------------------------------------------------------- */
+__GigouWinAPI void * __GigouUnixAPI gigou_kernel_allocInPool(gigou_Kernel * kernel,
+                                                                     UINT32 identity,
+                                                                     size_t size);
+
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_preAlloc()
+ ---------------------------------------------------------------------
+ Pré-alloue de la mémoire
+ ---------------------------------------------------------------------
+ E : kernel, size, nbr de bloc à rajouter
+ S : 1 si réussite, O sinon
+ --------------------------------------------------------------------- */
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_preAlloc(gigou_Kernel * kernel,
+                                                          size_t size,
+                                                          UINT32 nbr);
+
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_preAllocInPool()
+ ---------------------------------------------------------------------
+ Alloue de la mémoire dans un pool précis
+ ---------------------------------------------------------------------
+ E : kernel, identifiant du pool, size
+ S : 1 si réussite, O sinon
+ --------------------------------------------------------------------- */
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_preAllocInPool(gigou_Kernel * kernel,
+                                                                UINT32 identity,
+                                                                size_t size,
+                                                                UINT32 nbr);
+
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_free()
+ ---------------------------------------------------------------------
+ Libère la mémoire allouée
+ ---------------------------------------------------------------------
+ E : kernel, adresse du bloc mémoire, taille de l'objet
+ S : -
+ --------------------------------------------------------------------- */
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_free(gigou_Kernel * kernel,
+                                                    void * addr,
+                                                    size_t size);
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_freeInPool()
+ ---------------------------------------------------------------------
+ Libère la mémoire allouée dans un pool précis
+ ---------------------------------------------------------------------
+ E : kernel, id du pool ,adresse du bloc mémoire, taille de l'objet
+ S : -
+ --------------------------------------------------------------------- */
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_freeInPool(gigou_Kernel * kernel,
+                                                          UINT32 identity,
+                                                          void * addr,
+                                                          size_t size);
 
 
 

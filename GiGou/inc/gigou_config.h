@@ -1,7 +1,7 @@
 #ifndef GIGOU_CONFIG_H
 #define GIGOU_CONFIG_H
 
-#define GIGOU_DEBUG
+/*#define GIGOU_DEBUG*/
 
 #ifdef GIGOU_DOUBLE
 typedef double REAL;
@@ -28,5 +28,14 @@ typedef const unsigned long int CUINT32;
 
 #define GIGOU_ALLOC_HANDLE  void **
 #define GIGOU_HANDLE void *
+
+#define GIGOU_STACK_MEM 10
+#define GIGOU_DEFAULT_SIZEPOOL 128
+#define GIGOU_MEM_NBR_REALLOC 10
+
+#define GIGOU_TERA 1024*1024*1024*1024
+#define GIGOU_GIGA 1024*1024*1024
+#define GIGOU_MEGA 1024*1024
+#define GIGOU_KILO 1024
 
 #endif

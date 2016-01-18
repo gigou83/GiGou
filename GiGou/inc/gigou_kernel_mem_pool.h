@@ -11,7 +11,9 @@ typedef struct gigou_MemoryPool gigou_MemoryPool;
 /* -----------------------------------------------------------
  struct gigou_MemoryPool
  -----------------------------------------------------------
- Structure d'un  pool mémoire
+ Structure d'un  pool mémoire, il contient un tas principale
+ et d'autres structures pour allouer de la mémoire quand le tas
+ n'est pas la bonne solution
  -----------------------------------------------------------
  da_tas : liste de tous les éléments du tas, on pourrais y acceder
  en utilisant le système pere fils gauche fils droit, mais la 
@@ -23,6 +25,8 @@ typedef struct gigou_MemoryPool gigou_MemoryPool;
  da_maxSizeTas : on donne la valeur des tailles des cases mémoires qu'on
  allouera dans chaque élement du tas
  
+ p_tas : le premier élément du tas
+ 
  v_nbrTas : nombre d'élemnt dans le tas
  
  maxSize : la plus grande taille de case mémoire du pool
@@ -30,15 +34,33 @@ typedef struct gigou_MemoryPool gigou_MemoryPool;
 */
 __GigouWinAPI struct __GigouUnixAPI gigou_MemoryPool{
     
+    
+    /*
+        Le tas
+     */
+    
     gigou_MemoryTas ** da_tas;
     
     UINT32 * da_maxSizeTas;
     
-    UINT32 v_nbrTas;
+    gigou_MemoryTas * p_tas;
     
+    UINT32 v_nbrTas;
+
     UINT32 maxSize;
     
-    UINT32 c_indentity;
+    
+    /*
+        Mémoire auxiliaire
+     */
+    
+    
+    
+    /*
+        Autres
+     */
+    
+    UINT32 v_identity;
     
 };
 
@@ -51,17 +73,29 @@ __GigouWinAPI struct __GigouUnixAPI gigou_MemoryPool{
 
 
 
-
 /* ---------------------------------------------------------------------
  gigou_kernel_mem_pool_createPool()
  ---------------------------------------------------------------------
  Retourne un pool memoire initialise a NULL, il faut initialiser sois
  meme les donnees.
  ---------------------------------------------------------------------
- E : -
+ E : numero d'index du pool dans le kernel
  S : le pool memoire
  --------------------------------------------------------------------- */
-__GigouWinAPI gigou_MemoryPool * __GigouUnixAPI gigou_kernel_mem_pool_createPool();
+__GigouWinAPI gigou_MemoryPool * __GigouUnixAPI gigou_kernel_mem_pool_createPool(UINT32 index);
+
+
+
+/* ---------------------------------------------------------------------
+ gigou_kernel_mem_pool_setMaxSize()
+ ---------------------------------------------------------------------
+ Setter pour maxSize
+ ---------------------------------------------------------------------
+ E : le pool, la plus grande taille de case mémoire à allouer exemple : 1024
+ S : -
+ --------------------------------------------------------------------- */
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_setMaxSize(gigou_MemoryPool * pool,
+                                                                   UINT32 size);
 
 
 
@@ -79,6 +113,18 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_initPool(gigou_MemoryPoo
 
 
 /* ---------------------------------------------------------------------
+ gigou_kernel_mem_pool_getMemoryUsed()
+ ---------------------------------------------------------------------
+ Renvoie toute la mémoire utilisé par ce pool
+ ---------------------------------------------------------------------
+ E : pool
+ S : nombre d'octets utilisés
+ --------------------------------------------------------------------- */
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_mem_pool_getMemoryUsed(gigou_MemoryPool*pool);
+
+
+
+/* ---------------------------------------------------------------------
  gigou_kernel_mem_pool_destroyPool()
  ---------------------------------------------------------------------
  Supprime le pool
@@ -88,18 +134,6 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_initPool(gigou_MemoryPoo
  --------------------------------------------------------------------- */
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_destroyPool(gigou_MemoryPool*);
 
-
-
-/* ---------------------------------------------------------------------
- gigou_kernel_mem_pool_setMaxSize()
- ---------------------------------------------------------------------
- Setter pour maxSize
- ---------------------------------------------------------------------
- E : le pool, la plus grande taille de case mémoire à allouer exemple : 1024
- S : -
- --------------------------------------------------------------------- */
-__GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_setMaxSize(gigou_MemoryPool * pool,
-                                                                       UINT32 size);
 
 
 
@@ -126,16 +160,6 @@ __GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_initArrayTas(gigou_Mem
 
 
 
-/* ---------------------------------------------------------------------
- gigou_kernel_mem_pool_destroyArrayTas()
- ---------------------------------------------------------------------
- Supprime un tas
- ---------------------------------------------------------------------
- E : Identifiant du tas (ie index dans da_tas)
- S : -
- --------------------------------------------------------------------- */
-__GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_destroyArrayTas();
-
 
 
 /* ---------------------------------------------------------------------
@@ -151,12 +175,6 @@ __GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_destroyArrayTas();
  --------------------------------------------------------------------- */
 __GigouWinAPI UINT32 * __GigouUnixAPI __gigou_kernel_mem_pool_generateArrayTasMaxSize(UINT32 size,
                                                                                       UINT32 * nbr);
-
-
-
-
-
-
 
 
 #endif

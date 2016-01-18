@@ -1,23 +1,66 @@
 #include "../../../inc/gigou_kernel_mem_pool.h"
 
-__GigouWinAPI gigou_MemoryPool * __GigouUnixAPI gigou_kernel_mem_pool_createPool(){
+
+/*
+ ******************************************************
+ ******************* PUBLIC FONCTION ******************
+ ******************************************************
+ */
+
+
+
+__GigouWinAPI gigou_MemoryPool * __GigouUnixAPI gigou_kernel_mem_pool_createPool(UINT32 index){
     
-    __GigouLog("Creation d'un pool memoire")
+    __GigouLogArg("START: Creating memory pool at index %d",__GigouCastInt index)
     
     gigou_MemoryPool * buffer = (gigou_MemoryPool*)malloc(sizeof(gigou_MemoryPool));
     
     if(buffer == NULL){
-        __GigouLog("Echec d'allocatoin memoire pour la creation du pool")
+        __GigouErrorArg("Can't allocate memory to create this memory pool id: %d", __GigouCastInt index)
         exit(EXIT_FAILURE);
     }
     
     buffer->v_nbrTas = 1;
     buffer->da_maxSizeTas = NULL;
     buffer->da_tas = NULL;
+    buffer->p_tas = NULL;
+    buffer->v_identity = index;
+    
+    __GigouLogArg("END: Creating memory pool at index %d",__GigouCastInt index)
     
     return buffer;
     
 }
+
+
+__GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_setMaxSize(gigou_MemoryPool * pool,
+                                                                   UINT32 size){
+    
+    
+    __GigouLogArg("Configure maxSize for pool id: %d", __GigouCastInt pool->v_identity)
+    
+    if(size > 0){
+        
+        if(size % GIGOU_ALIGNEMENT == 0){
+            
+            __GigouLogArg("maxSize is : %d", __GigouCastInt size);
+            
+            pool->maxSize = size;
+            
+        }else{
+            
+            __GigouErrorArg("Size have to be an alignement multiple in pool id: %d", __GigouCastInt pool->v_identity)
+        }
+        
+    }else{
+        
+        __GigouErrorArg("Size have to be positive in pool id: %d", __GigouCastInt pool->v_identity)
+        
+    }
+    
+}
+
+
 
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_initPool(gigou_MemoryPool * pool){
     
@@ -50,13 +93,42 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_initPool(gigou_MemoryPoo
     
 }
 
+
+
+__GigouWinAPI UINT32 __GigouUnixAPI gigou_kernel_mem_pool_getMemoryUsed(gigou_MemoryPool*pool){
+    
+    UINT32 size = 0;
+    
+    int i = 0;
+    
+    if(pool != NULL){
+        
+        for(i=0;i< __GigouCastInt pool->v_nbrTas;i++){
+            
+            size += (*(pool->da_tas + i))->v_val * (*(pool->da_tas + i))->p_pile->v_nbrElement;
+            
+        }
+        
+        
+    }else{
+        
+        __GigouError("Invalid memory pool")
+        
+    }
+    
+    return size;
+    
+}
+
+
+
 __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_destroyPool(gigou_MemoryPool * pool){
     
     __GigouLog("Liberation du pool memoire")
     
     int i = 0;
     
-    if(pool->v_nbrTas > 0){
+    if(pool->v_nbrTas > 0 && pool->da_tas != NULL){
         
         __GigouLog("Liberation des tas ")
         
@@ -66,7 +138,7 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_destroyPool(gigou_Memory
             
         }
         
-        __GigouLog("Bonjour")
+        free(pool->da_tas);
         
     }
     
@@ -87,33 +159,12 @@ __GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_destroyPool(gigou_Memory
 
 
 
-__GigouWinAPI void __GigouUnixAPI gigou_kernel_mem_pool_setMaxSize(gigou_MemoryPool * pool,
-                                                                       UINT32 size){
-    
-    
-    __GigouLog("Configuration de la taille maximale pour le pool")
-    
-    if(size > 0){
-        
-        if(size % GIGOU_ALIGNEMENT == 0){
-            
-            pool->maxSize = size;
-            
-        }else{
-            
-            __GigouLog("ERREUR : La taille doit etre un multiple de l'alignement memoire")
-        }
-        
-    }else{
-        
-        __GigouLog("ERREUR : la taille doit etre un nombre > 0")
-        
-    }
-    
-}
 
-
-
+/*
+ *******************************************************
+ ******************* PRIVATE FONCTION ******************
+ *******************************************************
+ */
 
 
 __GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_initArrayTas(gigou_MemoryPool * pool,
@@ -156,15 +207,14 @@ __GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_initArrayTas(gigou_Mem
             *(pool->da_maxSizeTas + i) = *(listeSize + i);
             
             *(pool->da_tas + i) = gigou_kernel_mem_tas_createTas();
+            
+            (*(pool->da_tas + i))->v_val = *(listeSize + i);
+            
+            __gigou_kernel_mem_tas_stackMemoryAligned(*(pool->da_tas + i));
+            
         }
         
     }
-    
-}
-
-__GigouWinAPI void __GigouUnixAPI __gigou_kernel_mem_pool_destroyArrayTas(){
-    
-    
     
 }
 
