@@ -1,9 +1,9 @@
-# GiGou/bin/kernel/thread/Makefile
+# GiGou/bin/kernel/thread/UNIX/Makefile
 
 .SUFFIXES:
 .PHONY: clean
 
-EXEC:kernel_thread
+EXEC:kernel_thread_UNIX
 CC=gcc
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
@@ -11,9 +11,8 @@ CFLAGS=-W -Wall -ansi
 
 all: $(EXEC)
 
-kernel_thread: $(OBJ)
-	mv *.o UNIX/
-	make -C UNIX
+kernel_thread_UNIX: $(OBJ)
+	@$(CC) -L. -dynamiclib -install_name libaac.dylib -o libaac.dylib $(OBJ) 
 	mv libaac.dylib ../
 	make clean
 
@@ -21,11 +20,8 @@ kernel_thread: $(OBJ)
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
-	make clean -C UNIX
-	make clean -C WIN32
 	@rm -rf *.o
 
 mrproper: clean
-	make mrproper -C UNIX
-	make mrproper -C WIN32
 	@rm -rf *.dylib
+	make clean
