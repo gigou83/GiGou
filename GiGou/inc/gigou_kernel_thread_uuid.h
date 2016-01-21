@@ -22,6 +22,8 @@ typedef char * GIGOU_UUID;
 
 __GigouWinAPI GIGOU_UUID __GigouUnixAPI gigou_getUUID();
 
+__GigouWinAPI void __GigouUnixAPI gigou_printUUID(GIGOU_UUID s);
+
 __GigouWinAPI void __GigouUnixAPI gigou_freeUUID(GIGOU_UUID * s);
 
 #endif
